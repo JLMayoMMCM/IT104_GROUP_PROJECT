@@ -17,6 +17,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 DROP TABLE IF EXISTS address CASCADE;
 DROP TABLE IF EXISTS employee CASCADE;
+DROP TABLE IF EXISTS company CASCADE;
 DROP TABLE IF EXISTS account CASCADE;
 
 CREATE TABLE address (
@@ -35,10 +36,19 @@ CREATE TABLE employee (
     address_id INT REFERENCES address(address_id) ON DELETE SET NULL
 );
 
+CREATE TABLE company (
+	company_id SERIAL PRIMARY KEY,
+	company_name VARCHAR(100) NOT NULL,
+	business_registration_number INT(8)
+	address_ID INT REFERENCES address(address_id) ON DELETE SET NULL
+	
+	
+)
+
 CREATE TABLE account (
     account_id SERIAL PRIMARY KEY,
     account_email VARCHAR(255) UNIQUE NOT NULL,
-    account_password TEXT,  -- Nullable for SSO-only accounts
+    account_password TEXT,
     account_role VARCHAR(50) NOT NULL CHECK (account_role IN ('employer', 'employee')),
 
     sso_provider VARCHAR(100),
@@ -47,3 +57,13 @@ CREATE TABLE account (
     sso_expiry TIMESTAMP
 );
 
+insert into address values
+(
+	10000001,
+	'Camia street',
+	'Matina Crossing',
+	'Davao City',
+	'Davao Del Sur'
+);
+
+select * from address;

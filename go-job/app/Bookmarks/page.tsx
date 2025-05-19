@@ -3,65 +3,31 @@
 import { useState } from "react";
 import Link from "next/link";
 
-export default function Notifications() {
+export default function Bookmarks() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<{title: string, content: string, date: string}>({
-    title: "", 
-    content: "", 
-    date: ""
-  });
+  const [modalContent, setModalContent] = useState<{title: string, content: string}>({title: "", content: ""});
 
-  // Sample notifications data
-  const notifications = [
-    { 
-      id: 1, 
-      title: "New Job Match", 
-      content: "We've found a new job matching your skills: Software Developer at TechCorp.", 
-      date: "Today, 10:30 AM", 
-      read: false 
-    },
-    { 
-      id: 2, 
-      title: "Application Status Update", 
-      content: "Your application for UX Designer at DesignHub has moved to the interview stage.", 
-      date: "Yesterday, 3:45 PM", 
-      read: false 
-    },
-    { 
-      id: 3, 
-      title: "Profile Viewed", 
-      content: "A recruiter from InnovateInc viewed your profile.", 
-      date: "Jun 10, 2023", 
-      read: true 
-    },
-    { 
-      id: 4, 
-      title: "Message Received", 
-      content: "You have a new message from Sarah Johnson regarding the Product Manager position.", 
-      date: "Jun 8, 2023", 
-      read: true 
-    },
-    { 
-      id: 5, 
-      title: "Skill Assessment Available", 
-      content: "A new JavaScript skill assessment is available. Showcase your abilities to potential employers.", 
-      date: "Jun 5, 2023", 
-      read: true 
-    }
+
+  const bookmarkedJobs = [
+    { id: 1, title: "Frontend Developer", company: "Web Solutions", date: "Bookmarked on May 15, 2023" },
+    { id: 2, title: "UI/UX Designer", company: "Design Studio", date: "Bookmarked on May 12, 2023" },
+    { id: 3, title: "Backend Engineer", company: "Tech Innovators", date: "Bookmarked on May 10, 2023" },
+    { id: 4, title: "Product Manager", company: "Product Labs", date: "Bookmarked on May 8, 2023" },
+    { id: 5, title: "DevOps Engineer", company: "Cloud Systems", date: "Bookmarked on May 5, 2023" }
   ];
 
-  const openNotificationModal = (notification: {title: string, content: string, date: string}) => {
+  const openJobModal = (job: {id: number, title: string, company: string}) => {
     setModalContent({
-      title: notification.title,
-      content: notification.content,
-      date: notification.date
+      title: job.title,
+      content: `${job.title} position at ${job.company}. This is a great opportunity to work with a leading company in the industry.`
     });
     setModalOpen(true);
   };
 
   return (
     <div className="min-h-screen bg-gray-100">
+      
       {/* Top navbar */}
       <div className="p-4 flex justify-between items-center bg-white shadow">
         <div className="flex items-center">
@@ -81,6 +47,7 @@ export default function Notifications() {
       </div>
 
       <div className="flex">
+
         {/* Sidebar */}
         <div className={`
           bg-white w-64 fixed h-full shadow
@@ -94,10 +61,10 @@ export default function Notifications() {
                 <Link href="/dashboard" className="block p-3 hover:bg-gray-100 rounded-md text-gray-700 font-medium">
                   DASHBOARD
                 </Link>
-                <Link href="/notifications" className="block p-3 bg-gray-200 rounded-md text-gray-700 font-medium">
+                <Link href="/notifications" className="block p-3 hover:bg-gray-100 rounded-md text-gray-700 font-medium">
                   NOTIFICATIONS
                 </Link>
-                <Link href="/bookmarks" className="block p-3 hover:bg-gray-100 rounded-md text-gray-700 font-medium">
+                <Link href="/bookmarks" className="block p-3 bg-gray-200 rounded-md text-gray-700 font-medium">
                   BOOKMARKS
                 </Link>
                 <Link href="/contacts" className="block p-3 hover:bg-gray-100 rounded-md text-gray-700 font-medium">
@@ -111,34 +78,36 @@ export default function Notifications() {
         {/* Main content */}
         <div className="flex-1 p-6 md:ml-0">
           <div className="mb-8">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-semibold">Notifications</h2>
-              <button className="px-4 py-2 text-blue-500 hover:text-blue-700">
-                Mark All as Read
-              </button>
-            </div>
+            <h2 className="text-2xl font-semibold mb-6">Bookmarked Jobs</h2>
             
             <div className="bg-white rounded-lg shadow overflow-hidden">
-              {notifications.map((notification, index) => (
+              {bookmarkedJobs.map((job, index) => (
                 <div 
-                  key={notification.id} 
+                  key={job.id} 
                   className={`p-4 hover:bg-gray-50 cursor-pointer ${
-                    index !== notifications.length - 1 ? 'border-b border-gray-200' : ''
-                  } ${!notification.read ? 'bg-blue-50' : ''}`}
-                  onClick={() => openNotificationModal(notification)}
+                    index !== bookmarkedJobs.length - 1 ? 'border-b border-gray-200' : ''
+                  }`}
+                  onClick={() => openJobModal(job)}
                 >
                   <div className="flex justify-between items-start">
-                    <div className={`font-medium ${!notification.read ? 'font-semibold' : ''}`}>
-                      {notification.title}
+                    <div>
+                      <h3 className="font-medium text-lg">{job.title}</h3>
+                      <p className="text-gray-600">{job.company}</p>
                     </div>
-                    <div className="text-sm text-gray-500">{notification.date}</div>
+                    <div className="flex space-x-2">
+                      <button className="text-blue-500 hover:text-blue-700">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 3H9v18l3-3 3 3V3z" />
+                        </svg>
+                      </button>
+                      <button className="text-red-500 hover:text-red-700">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
-                  <p className={`mt-1 text-gray-600 ${!notification.read ? 'text-gray-800' : ''}`}>
-                    {notification.content.length > 100 
-                      ? `${notification.content.substring(0, 100)}...` 
-                      : notification.content
-                    }
-                  </p>
+                  <p className="text-sm text-gray-500 mt-2">{job.date}</p>
                 </div>
               ))}
             </div>
@@ -159,15 +128,17 @@ export default function Notifications() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <h2 className="text-xl font-bold mb-2">{modalContent.title}</h2>
-            <p className="text-gray-500 text-sm mb-4">{modalContent.date}</p>
+            <h2 className="text-xl font-bold mb-4">{modalContent.title}</h2>
             <p className="text-gray-700 mb-6">{modalContent.content}</p>
-            <div className="flex justify-end">
+            <div className="flex justify-end space-x-4">
               <button 
                 className="px-4 py-2 bg-gray-200 rounded-md text-gray-700 hover:bg-gray-300"
                 onClick={() => setModalOpen(false)}
               >
                 Close
+              </button>
+              <button className="px-4 py-2 bg-blue-500 rounded-md text-white hover:bg-blue-600">
+                Apply Now
               </button>
             </div>
           </div>
@@ -184,4 +155,3 @@ export default function Notifications() {
     </div>
   );
 }
-

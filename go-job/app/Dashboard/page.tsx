@@ -51,8 +51,8 @@ export default function Dashboard() {
           <button className="px-3 py-1 rounded-md bg-gray-200 text-gray-700">VIEW PROFILE</button>
         </Link>
       </div>
-
-      {/* Sidebar - hidden on mobile unless toggled */}
+      
+      {/* Sidebar */}
       <div className="flex">
         <div className={`
           bg-white w-64 fixed h-full shadow
@@ -67,16 +67,16 @@ export default function Dashboard() {
             
             <nav className="mt-6">
               <div className="space-y-4">
-                <Link href="/dashboard" className="block p-3 bg-gray-200 rounded-md text-gray-700 font-medium">
+                <Link href="/Dashboard" className="block p-3 bg-gray-200 rounded-md text-gray-700 font-medium">
                   DASHBOARD
                 </Link>
-                <Link href="/notifications" className="block p-3 hover:bg-gray-100 rounded-md text-gray-700 font-medium">
+                <Link href="/Notifications" className="block p-3 hover:bg-gray-100 rounded-md text-gray-700 font-medium">
                   NOTIFICATIONS
                 </Link>
-                <Link href="/bookmarks" className="block p-3 hover:bg-gray-100 rounded-md text-gray-700 font-medium">
+                <Link href="/Bookmarks" className="block p-3 hover:bg-gray-100 rounded-md text-gray-700 font-medium">
                   BOOKMARKS
                 </Link>
-                <Link href="/contacts" className="block p-3 hover:bg-gray-100 rounded-md text-gray-700 font-medium">
+                <Link href="/Contacts" className="block p-3 hover:bg-gray-100 rounded-md text-gray-700 font-medium">
                   CONTACTS
                 </Link>
               </div>

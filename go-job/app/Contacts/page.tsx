@@ -3,59 +3,30 @@
 import { useState } from "react";
 import Link from "next/link";
 
-export default function Notifications() {
+export default function Contacts() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<{title: string, content: string, date: string}>({
+  const [modalContent, setModalContent] = useState<{name: string, title: string, email: string, phone: string}>({
+    name: "", 
     title: "", 
-    content: "", 
-    date: ""
+    email: "", 
+    phone: ""
   });
 
-  // Sample notifications data
-  const notifications = [
-    { 
-      id: 1, 
-      title: "New Job Match", 
-      content: "We've found a new job matching your skills: Software Developer at TechCorp.", 
-      date: "Today, 10:30 AM", 
-      read: false 
-    },
-    { 
-      id: 2, 
-      title: "Application Status Update", 
-      content: "Your application for UX Designer at DesignHub has moved to the interview stage.", 
-      date: "Yesterday, 3:45 PM", 
-      read: false 
-    },
-    { 
-      id: 3, 
-      title: "Profile Viewed", 
-      content: "A recruiter from InnovateInc viewed your profile.", 
-      date: "Jun 10, 2023", 
-      read: true 
-    },
-    { 
-      id: 4, 
-      title: "Message Received", 
-      content: "You have a new message from Sarah Johnson regarding the Product Manager position.", 
-      date: "Jun 8, 2023", 
-      read: true 
-    },
-    { 
-      id: 5, 
-      title: "Skill Assessment Available", 
-      content: "A new JavaScript skill assessment is available. Showcase your abilities to potential employers.", 
-      date: "Jun 5, 2023", 
-      read: true 
-    }
+  const contacts = [
+    { id: 1, name: "John Smith", title: "Recruiter", company: "TechHire Inc.", email: "john@techhire.com", phone: "555-123-4567" },
+    { id: 2, name: "Sarah Johnson", title: "HR Manager", company: "Global Solutions", email: "sarah@globalsolutions.com", phone: "555-234-5678" },
+    { id: 3, name: "Michael Brown", title: "Talent Acquisition", company: "Innovate Corp", email: "michael@innovate.com", phone: "555-345-6789" },
+    { id: 4, name: "Emily Davis", title: "Hiring Manager", company: "Future Tech", email: "emily@futuretech.com", phone: "555-456-7890" },
+    { id: 5, name: "David Wilson", title: "CEO", company: "Startup Ventures", email: "david@startup.com", phone: "555-567-8901" }
   ];
 
-  const openNotificationModal = (notification: {title: string, content: string, date: string}) => {
+  const openContactModal = (contact: {name: string, title: string, company: string, email: string, phone: string}) => {
     setModalContent({
-      title: notification.title,
-      content: notification.content,
-      date: notification.date
+      name: contact.name,
+      title: `${contact.title} at ${contact.company}`,
+      email: contact.email,
+      phone: contact.phone
     });
     setModalOpen(true);
   };
@@ -94,13 +65,13 @@ export default function Notifications() {
                 <Link href="/dashboard" className="block p-3 hover:bg-gray-100 rounded-md text-gray-700 font-medium">
                   DASHBOARD
                 </Link>
-                <Link href="/notifications" className="block p-3 bg-gray-200 rounded-md text-gray-700 font-medium">
+                <Link href="/notifications" className="block p-3 hover:bg-gray-100 rounded-md text-gray-700 font-medium">
                   NOTIFICATIONS
                 </Link>
                 <Link href="/bookmarks" className="block p-3 hover:bg-gray-100 rounded-md text-gray-700 font-medium">
                   BOOKMARKS
                 </Link>
-                <Link href="/contacts" className="block p-3 hover:bg-gray-100 rounded-md text-gray-700 font-medium">
+                <Link href="/contacts" className="block p-3 bg-gray-200 rounded-md text-gray-700 font-medium">
                   CONTACTS
                 </Link>
               </div>
@@ -112,33 +83,36 @@ export default function Notifications() {
         <div className="flex-1 p-6 md:ml-0">
           <div className="mb-8">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-semibold">Notifications</h2>
-              <button className="px-4 py-2 text-blue-500 hover:text-blue-700">
-                Mark All as Read
+              <h2 className="text-2xl font-semibold">Professional Contacts</h2>
+              <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                + Add Contact
               </button>
             </div>
             
             <div className="bg-white rounded-lg shadow overflow-hidden">
-              {notifications.map((notification, index) => (
+              <div className="p-4 bg-gray-50 border-b border-gray-200 flex font-medium">
+                <div className="w-1/3">Name</div>
+                <div className="w-1/3">Title / Company</div>
+                <div className="w-1/3">Contact</div>
+              </div>
+              
+              {contacts.map((contact, index) => (
                 <div 
-                  key={notification.id} 
-                  className={`p-4 hover:bg-gray-50 cursor-pointer ${
-                    index !== notifications.length - 1 ? 'border-b border-gray-200' : ''
-                  } ${!notification.read ? 'bg-blue-50' : ''}`}
-                  onClick={() => openNotificationModal(notification)}
+                  key={contact.id} 
+                  className={`p-4 hover:bg-gray-50 cursor-pointer flex ${
+                    index !== contacts.length - 1 ? 'border-b border-gray-200' : ''
+                  }`}
+                  onClick={() => openContactModal(contact)}
                 >
-                  <div className="flex justify-between items-start">
-                    <div className={`font-medium ${!notification.read ? 'font-semibold' : ''}`}>
-                      {notification.title}
-                    </div>
-                    <div className="text-sm text-gray-500">{notification.date}</div>
+                  <div className="w-1/3">{contact.name}</div>
+                  <div className="w-1/3">
+                    <div>{contact.title}</div>
+                    <div className="text-sm text-gray-500">{contact.company}</div>
                   </div>
-                  <p className={`mt-1 text-gray-600 ${!notification.read ? 'text-gray-800' : ''}`}>
-                    {notification.content.length > 100 
-                      ? `${notification.content.substring(0, 100)}...` 
-                      : notification.content
-                    }
-                  </p>
+                  <div className="w-1/3">
+                    <div className="text-sm">{contact.email}</div>
+                    <div className="text-sm text-gray-500">{contact.phone}</div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -159,15 +133,28 @@ export default function Notifications() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <h2 className="text-xl font-bold mb-2">{modalContent.title}</h2>
-            <p className="text-gray-500 text-sm mb-4">{modalContent.date}</p>
-            <p className="text-gray-700 mb-6">{modalContent.content}</p>
-            <div className="flex justify-end">
+            <h2 className="text-xl font-bold mb-2">{modalContent.name}</h2>
+            <p className="text-gray-600 mb-4">{modalContent.title}</p>
+            
+            <div className="mb-2">
+              <div className="text-gray-500 text-sm">Email</div>
+              <div>{modalContent.email}</div>
+            </div>
+            
+            <div className="mb-4">
+              <div className="text-gray-500 text-sm">Phone</div>
+              <div>{modalContent.phone}</div>
+            </div>
+            
+            <div className="flex justify-end space-x-4">
               <button 
                 className="px-4 py-2 bg-gray-200 rounded-md text-gray-700 hover:bg-gray-300"
                 onClick={() => setModalOpen(false)}
               >
                 Close
+              </button>
+              <button className="px-4 py-2 bg-blue-500 rounded-md text-white hover:bg-blue-600">
+                Message
               </button>
             </div>
           </div>
@@ -184,4 +171,3 @@ export default function Notifications() {
     </div>
   );
 }
-

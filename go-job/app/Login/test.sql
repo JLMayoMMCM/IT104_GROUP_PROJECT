@@ -38,7 +38,7 @@ CREATE TABLE employee (
 CREATE TABLE account (
     account_id SERIAL PRIMARY KEY,
     account_email VARCHAR(255) UNIQUE NOT NULL,
-    account_password TEXT,
+    account_password TEXT,  -- Nullable for SSO-only accounts
     account_role VARCHAR(50) NOT NULL CHECK (account_role IN ('employer', 'employee')),
 
     sso_provider VARCHAR(100),
@@ -46,4 +46,4 @@ CREATE TABLE account (
     sso_token TEXT,
     sso_expiry TIMESTAMP
 );
-	
+

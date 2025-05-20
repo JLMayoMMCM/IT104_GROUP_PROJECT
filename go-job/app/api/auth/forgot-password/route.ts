@@ -24,11 +24,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // In a real application, you would:
-    // 1. Generate a secure token
-    // 2. Store it in the database with an expiration
-    // 3. Send an email with a link containing this token
-
+    //FOR SIMULATION PURPOSES ONLY
     console.log(`Password reset requested for email: ${email}`);
 
     return NextResponse.json({
